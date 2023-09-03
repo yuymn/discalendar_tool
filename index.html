@@ -20,27 +20,27 @@
 				<div>
 					<p>色：
 					<select name="color" id="color">
-						<option value="color1">白</option>
-						<option value="color2">黒</option>
-						<option value="color3">赤</option>
-						<option value="color4">青</option>
-						<option value="color5">緑</option>
-						<option value="color6">黄</option>
-						<option value="color7">紫</option>
-						<option value="color8">灰</option>
-						<option value="color9">茶</option>
-						<option value="color10">水色</option>
+						<option value="白">白</option>
+						<option value="黒">黒</option>
+						<option value="赤">赤</option>
+						<option value="青">青</option>
+						<option value="緑">緑</option>
+						<option value="黄">黄</option>
+						<option value="紫">紫</option>
+						<option value="灰">灰</option>
+						<option value="茶">茶</option>
+						<option value="水色">水色</option>
 					</select>
 					</p>
 				</div>
 				<div><p>日程：</p>
-					<textarea rows="8" cols="50" name="schedule" id="schedule" placeholder="202311241322瀬楽">
-
-					</textarea>
+					<textarea rows="8" cols="50" name="schedule" id="schedule" placeholder="202311241322瀬楽"></textarea>
 				</div>
 				<div>
 					<button name="execBtn" id="execBtn">Go！</button>
+					<button name="resetBtn" id="resetBtn">Reset</button>
 				</div>
+				<hr>
 				<div id="resultArea">
 					
 				</div>
@@ -51,5 +51,38 @@
 
 	</body>
 	<script>
+		$('#execBtn').click(function(){
+			const eventName = $('#eventName').val();
+			const color = $('#color').val();
+			let inputText = $('#schedule').val();
+			let array = textSplit(inputText);
+			for (let i = 0; i < array.length; ++i) {
+  				let year = array[i].substr(0,4);
+				let month = array[i].substr(4,2);
+				let day = array[i].substr(6,2);
+				let start = array[i].substr(8,2);
+				let end = array[i].substr(10,2);
+				let place = array[i].substr(12);
+				let output = '/create' + ' name:' +eventName+ ' start_year:' + year + ' start_month:'+ month +' start_day:' + day + ' start_hour:' + start + ' start_minute:0' + ' end_year:' + year + ' end_month:'+ month +' end_day:' + day + ' end_hour:' + end + ' end_minute:0 color:' + color + ' description:' + place;
+				
+				$('#resultArea').append('<p id="result' + i +'">'+ output +'</p><button class="resultBtn" id="resultBtn' + i + '" value="' + i + '" >Copy</button>');
+			}
+
+		});
+
+		function textSplit(value){
+			return value.split("\n");
+		}
+
+		$('#resetBtn').click(function(){
+			$('#resultArea').empty();
+		});
+
+		$(document).on("click",".resultBtn",function(){
+			let number = $(this).val();
+			let command = document.getElementById('result'+number).textContent;
+			navigator.clipboard.writeText(command);
+		});
+
 	</script>
 </html>	
