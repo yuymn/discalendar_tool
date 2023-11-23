@@ -63,7 +63,7 @@
 				let start = array[i].substr(8,2);
 				let end = array[i].substr(10,2);
 				let place = array[i].substr(12);
-				let output = '/create' + ' name:' +eventName+ ' start_year:' + year + ' start_month:'+ month +' start_day:' + day + ' start_hour:' + start + ' start_minute:0' + ' end_year:' + year + ' end_month:'+ month +' end_day:' + day + ' end_hour:' + end + ' end_minute:0 color:' + color + ' description:' + place;
+				let output = '/create' + ' name:' +eventName+ ' start_year:' + year + ' start_month:'+ month +' start_day:' + day + ' start_hour:' + start + ' start_minute:0' + ' end_year:' + year + ' end_month:'+ month +' end_day:' + day + ' end_hour:' + end + ' end_minute:0 color:' + color + ' notify_1:1日前 description:' + place;
 				
 				$('#resultArea').append('<p id="result' + i +'">'+ output +'</p><button class="resultBtn" id="resultBtn' + i + '" value="' + i + '" >Copy</button>');
 			}
