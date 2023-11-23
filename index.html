@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 		<script src='js/bootstrap.bundle.js'></script>
+		<script src='js/script.js'></script>
 		<link rel='stylesheet' href='css/bootstrap.css'>
 		<link rel='stylesheet' href='css/style.css'>
 	</head>
@@ -14,7 +15,25 @@
 			<header>
 			</header>
 			<main>
-				<div>
+				<div class="mb-3">
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="mode" id="mode1" value="1" checked>
+						<label class="form-check-label" for="mode1">単イベント追加</label>
+					  </div>
+					  <div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="mode" id="mode2" value="2">
+						<label class="form-check-label" for="mode2">複数イベント追加</label>
+					  </div>
+				</div>
+				<div class="mb-3">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="1" id="yearCheck" checked>
+						<label class="form-check-label" for="yearCheck">
+						  年を自動判別する
+						</label>
+					  </div>
+				</div>
+				<div id="eventNameArea">
 					<p>イベント名：<input type="text" name="eventName" id="eventName"></p>
 				</div>
 				<div>
@@ -33,12 +52,13 @@
 					</select>
 					</p>
 				</div>
-				<div><p>日程：</p>
-					<textarea rows="8" cols="50" name="schedule" id="schedule" placeholder="202311241322瀬楽"></textarea>
+				<div><p>日程：<span id="inputExample"></span></p>
+					<textarea rows="8" cols="50" name="schedule" id="schedule" placeholder=""></textarea>
 				</div>
 				<div>
-					<button name="execBtn" id="execBtn">Go！</button>
-					<button name="resetBtn" id="resetBtn">Reset</button>
+					<button class="btn btn-outline-primary" name="execBtn" id="execBtn">Go！</button>
+					<button class="btn btn-outline-danger" name="listResetBtn" id="listResetBtn">ListReset</button>
+					<button class="btn btn-outline-secondary" name="inputResetBtn" id="inputResetBtn">InputReset</button>
 				</div>
 				<hr>
 				<div id="resultArea">
@@ -50,39 +70,4 @@
 		</div>
 
 	</body>
-	<script>
-		$('#execBtn').click(function(){
-			const eventName = $('#eventName').val();
-			const color = $('#color').val();
-			let inputText = $('#schedule').val();
-			let array = textSplit(inputText);
-			for (let i = 0; i < array.length; ++i) {
-  				let year = array[i].substr(0,4);
-				let month = array[i].substr(4,2);
-				let day = array[i].substr(6,2);
-				let start = array[i].substr(8,2);
-				let end = array[i].substr(10,2);
-				let place = array[i].substr(12);
-				let output = '/create' + ' name:' +eventName+ ' start_year:' + year + ' start_month:'+ month +' start_day:' + day + ' start_hour:' + start + ' start_minute:0' + ' end_year:' + year + ' end_month:'+ month +' end_day:' + day + ' end_hour:' + end + ' end_minute:0 color:' + color + ' notify_1:1日前 description:' + place;
-				
-				$('#resultArea').append('<p id="result' + i +'">'+ output +'</p><button class="resultBtn" id="resultBtn' + i + '" value="' + i + '" >Copy</button>');
-			}
-
-		});
-
-		function textSplit(value){
-			return value.split("\n");
-		}
-
-		$('#resetBtn').click(function(){
-			$('#resultArea').empty();
-		});
-
-		$(document).on("click",".resultBtn",function(){
-			let number = $(this).val();
-			let command = document.getElementById('result'+number).textContent;
-			navigator.clipboard.writeText(command);
-		});
-
-	</script>
 </html>	
